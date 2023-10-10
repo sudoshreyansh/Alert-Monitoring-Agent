@@ -17,6 +17,6 @@ Instead of a simple Temperature Alert Agent, we generalized the problem to being
 - **Source uAgent:** The Source Agent and Protocol allows query of time-series data provided to the Alert Agent. This can be replaced to be any provider like Temperature data, Currency Exchange Rate data, etc.
 - **Notification uAgent:** The Notification uAgent and Protocol allow notifications to users through multiple streams.
 
-The user data is stored in the Multiplexed Backend and forwarded to other uAgents partially only when required, thus preserving privacy. This architecture allows for a dynamic architecture and quick plug-and-play mechanisms which is essential for a decentralized ecosystem.
+The user data is stored in the Multiplexed Backend and forwarded to other uAgents partially only when required, thus preserving privacy. This architecture allows for dynamic and quick plug-and-play mechanisms which is essential for a decentralized ecosystem.
 
 In this project, we have the Source uAgent = Open Weather Map API, and the Notifications Agent = Twilio SMS Service.
