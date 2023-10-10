@@ -7,7 +7,7 @@ A general-purpose Alert & Monitoring Agent based on Fetch.AI's uAgents framework
 
 ## Architecture
 
-Instead of a Temperature Alert Agent problem, we generalized the problem to being able to have alerts for any time-series data. For this, we imagined uAgents as microservices:
+Instead of a simple Temperature Alert Agent, we generalized the problem to being able to have alerts for any time-series data. For this, we imagined uAgents as microservices:
 
 ![image](https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/b17ef490-1b05-4c13-91ae-e5c5cf50b8a6)
 
