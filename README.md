@@ -1,10 +1,14 @@
 # Alert & Monitoring Agent
 
-A general-purpose Alert & Monitoring Agents based on Fetch.AI's uAgents framework. 
+A general-purpose Alert & Monitoring Agents for Time-Series data (like temperature, currency exchange rates, etc) based on Fetch.AI's uAgents framework. 
+
+&nbsp;
 
 <p align="center">
-<img src="https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/331873e4-15c9-4975-a18b-a8bf352baa4b" />
+<img src="https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/331873e4-15c9-4975-a18b-a8bf352baa4b" width="400"/ />
 </p>
+
+&nbsp;
 
 ## Set Up Instructions
 
