@@ -4,7 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-uagents = "*"
+fastapi = {extras = ["all"], version = "*"}
+uagents = "==0.6.2"
 
 [dev-packages]
 
