@@ -18,14 +18,14 @@ def setup_server():
     
 
 if __name__ == "__main__":
-  t1 = threading.Thread(target=setup_agents)
-  t2 = threading.Thread(target=setup_server)
+  agents_thread = threading.Thread(target=setup_agents)
+  http_thread = threading.Thread(target=setup_server)
 
-  t1.setDaemon(True)
-  t2.setDaemon(True)
+  agents_thread.setDaemon(True)
+  http_thread.setDaemon(True)
 
-  t1.start()
-  t2.start()
+  agents_thread.start()
+  http_thread.start()
 
   while True:
     time.sleep(1)
