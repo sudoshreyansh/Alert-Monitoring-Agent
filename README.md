@@ -20,3 +20,9 @@ Instead of a simple Temperature Alert Agent, we generalized the problem to being
 The user data is stored in the Multiplexed Backend and forwarded to other uAgents partially only when required, thus preserving privacy. This architecture allows for dynamic and quick plug-and-play mechanisms which is essential for a decentralized ecosystem.
 
 In this project, we have the Source uAgent = Open Weather Map API, and the Notifications Agent = Twilio SMS Service.
+
+## Frontend
+
+<p align="center">
+<img src="https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/331873e4-15c9-4975-a18b-a8bf352baa4b" />
+</p>
