@@ -1,34 +1,40 @@
-from uagents import Context, Model, Protocol
+from uagents import Agent, Context, Model, Protocol
+from uagents.setup import fund_agent_if_low
+import requests
+import json
+import os
+from dotenv import load_dotenv
 from uagents.query import query
 from uagents.contrib.protocols.protocol_query import ProtocolQuery, ProtocolResponse
-from messages.source_protocol import SourceRequest, SourceResponse
+from messages import SourceRequest, AlertRequest, AlertResponse, DeleteAlertRequest, DeleteAlertResponse
+import uuid
 
-alert_protocol = Protocol(name="AlertProtocol", version="1.0.0")
+# Loading environment variables
+load_dotenv()
 
-
+# Global variables
 ALERTS = {}
 CALLS = {}
 
+# Defining the Alert agent
+alert = Agent(
+    name="alert",
+    seed="alert secret phase",
+    port=8000,
+    endpoint={
+        "http://127.0.0.1:8000/submit": {},
+    },
+)
 
-class AlertRequest(Model):
-    source: str
-    field: str
-    params: object
-    threshold: int
+# Funding the agent
+fund_agent_if_low(alert.wallet.address())
 
-
-class AlertResponse(Model):
-    id: str
-
-
-class DeleteAlertRequest(Model):
-    id: str
-
-
-class DeleteAlertResponse(Model):
-    status: bool
+# Defining the Alert protocol
+alert_protocol = Protocol(name="AlertProtocol", version="1.0.0")
 
 
+# Defining the Alert protocol handlers
+# Handle Alert Request and create a New Alert
 @alert.on_message(model=AlertRequest, replies=AlertResponse)
 async def handle_alert_request(ctx: Context, sender: str, msg: Alert):
     id = str(uuid.uuid4())
@@ -49,6 +55,7 @@ async def handle_alert_request(ctx: Context, sender: str, msg: Alert):
     await ctx.send(AlertResponse(id=id))
 
 
+# Handle Delete Alert Request and delete an Alert
 @alert.on_message(model=DeleteAlertRequest, replies=DeleteAlertResponse)
 async def handle_delete_alert_request(ctx: Context, sender: str, msg: DeleteAlertRequest):
     for alert in ALERTS[sender]:
@@ -61,6 +68,7 @@ async def handle_delete_alert_request(ctx: Context, sender: str, msg: DeleteAler
             await ctx.send(DeleteAlertResponse(status=False))
 
 
+# Handle Interval and check for Alerts
 @alert.on_interval(period=os.getenv("FREQUENCY"))
 async def handle_interval(ctx: Context):
     for user in ALERTS:
@@ -79,3 +87,8 @@ async def handle_interval(ctx: Context):
                 CALLS[alert["id"]] = time.time()
             else:
                 pass
+
+alert.include(alert_protocol)
+
+if __name__ == "__main__":
+    alert_protocol.start()
