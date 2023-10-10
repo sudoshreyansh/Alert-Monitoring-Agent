@@ -1,6 +1,10 @@
 # Alert & Monitoring Agent
 
-A general-purpose Alert & Monitoring Agent based on Fetch.AI's uAgents framework.
+A general-purpose Alert & Monitoring Agents based on Fetch.AI's uAgents framework. 
+
+<p align="center">
+<img src="https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/331873e4-15c9-4975-a18b-a8bf352baa4b" />
+</p>
 
 ## Set Up Instructions
 
@@ -21,8 +25,3 @@ The user data is stored in the Multiplexed Backend and forwarded to other uAgent
 
 In this project, we have the Source uAgent = Open Weather Map API, and the Notifications Agent = Twilio SMS Service.
 
-## Frontend
-
-<p align="center">
-<img src="https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/331873e4-15c9-4975-a18b-a8bf352baa4b" />
-</p>
