@@ -5,7 +5,7 @@ A general-purpose Alert & Monitoring Agents for Time-Series data (like temperatu
 &nbsp;
 
 <p align="center">
-<img src="https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/331873e4-15c9-4975-a18b-a8bf352baa4b" width="400"/ />
+<img src="https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/bba83023-1e1c-4a97-8edd-c49e0d067fd6" width="400"/ />
 </p>
 
 &nbsp;
@@ -17,7 +17,8 @@ A general-purpose Alert & Monitoring Agents for Time-Series data (like temperatu
 
 Instead of a simple Temperature Alert Agent, we generalized the problem to being able to have alerts for any time-series data. For this, we imagined uAgents as microservices:
 
-![image](https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/b17ef490-1b05-4c13-91ae-e5c5cf50b8a6)
+![image](https://github.com/sudoshreyansh/Alert-Monitoring-Agent/assets/44190883/b641871f-53a5-46d1-bc68-011b162cfd0c)
+
 
 - **Frontend:** The user-facing UI
 - **Multiplexed HTTP Server & uAgent:** We multiplexed HTTP Server and uAgent in the frontend-facing backend. This is to allow both communication through HTTP clients and uAgents.
