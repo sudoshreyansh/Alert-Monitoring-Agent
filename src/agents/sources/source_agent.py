@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 from messages import SourceRequest, SourceResponse
 
-# Loading environment variables
+
 load_dotenv()
 
 
@@ -25,8 +25,7 @@ def urlBuilder(params):
     return url
 
 
-# Defining the Source agent
-source = Agent(
+agent = Agent(
     name="source",
     port=8001,
     seed="source secret phase",
@@ -35,14 +34,10 @@ source = Agent(
     },
 )
 
-# Funding the agent
-fund_agent_if_low(source.wallet.address())
 
+fund_agent_if_low(agent.wallet.address())
 
-# Defining the Source protocol
 source_protocol = Protocol(name="SourceProtocol", version="1.0.0")
-
-# Fetching data from the API and sending it to the Alert agent
 
 
 @source_protocol.on_message(model=SourceRequest, replies=SourceResponse)
@@ -71,12 +66,11 @@ async def handle_request(ctx: Context, request: SourceRequest):
         })
 
 
-# Sending the frequency to the Alert agent
 @source_protocol.on_query()
 async def handle_query(ctx: Context):
     await ctx.send(os.getenv("FREQUENCY"))
 
-source.include(source_protocol, publish_manifest=True)
+agent.include(source_protocol, publish_manifest=True)
 
 if __name__ == "__main__":
-    source.run()
+    agent.run()

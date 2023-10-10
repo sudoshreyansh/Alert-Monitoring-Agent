@@ -9,15 +9,14 @@ from uagents.contrib.protocols.protocol_query import ProtocolQuery, ProtocolResp
 from messages import SourceRequest, AlertRequest, AlertResponse, DeleteAlertRequest, DeleteAlertResponse
 import uuid
 
-# Loading environment variables
+
 load_dotenv()
 
-# Global variables
 ALERTS = {}
 CALLS = {}
 
-# Defining the Alert agent
-alert = Agent(
+
+agent = Agent(
     name="alert",
     seed="alert secret phase",
     port=8000,
@@ -26,16 +25,12 @@ alert = Agent(
     },
 )
 
-# Funding the agent
-fund_agent_if_low(alert.wallet.address())
+fund_agent_if_low(agent.wallet.address())
 
-# Defining the Alert protocol
 alert_protocol = Protocol(name="AlertProtocol", version="1.0.0")
 
 
-# Defining the Alert protocol handlers
-# Handle Alert Request and create a New Alert
-@alert.on_message(model=AlertRequest, replies=AlertResponse)
+@alert_protocol.on_message(model=AlertRequest, replies=AlertResponse)
 async def handle_alert_request(ctx: Context, sender: str, msg: Alert):
     id = str(uuid.uuid4())
     freq = await query(sender)
@@ -55,8 +50,7 @@ async def handle_alert_request(ctx: Context, sender: str, msg: Alert):
     await ctx.send(AlertResponse(id=id))
 
 
-# Handle Delete Alert Request and delete an Alert
-@alert.on_message(model=DeleteAlertRequest, replies=DeleteAlertResponse)
+@alert_protocol.on_message(model=DeleteAlertRequest, replies=DeleteAlertResponse)
 async def handle_delete_alert_request(ctx: Context, sender: str, msg: DeleteAlertRequest):
     for alert in ALERTS[sender]:
         if alert["id"] == msg.id and alert["user"] == sender:
@@ -68,8 +62,7 @@ async def handle_delete_alert_request(ctx: Context, sender: str, msg: DeleteAler
             await ctx.send(DeleteAlertResponse(status=False))
 
 
-# Handle Interval and check for Alerts
-@alert.on_interval(period=os.getenv("FREQUENCY"))
+@alert_protocol.on_interval(period=os.getenv("FREQUENCY"))
 async def handle_interval(ctx: Context):
     for user in ALERTS:
         for alert in ALERTS[user]:
@@ -88,7 +81,7 @@ async def handle_interval(ctx: Context):
             else:
                 pass
 
-alert.include(alert_protocol)
+agent.include(alert_protocol)
 
 if __name__ == "__main__":
-    alert_protocol.start()
+    agent.run()

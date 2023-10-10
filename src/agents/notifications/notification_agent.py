@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 import os
 from message import Notification
 
-# Your Account Sid and Auth Token from twilio.com/console
+
 client = Client(os.getenv("ACCOUNT_SID"), os.getenv("AUTH_TOKEN"))
 NOTIIFICATION_AGENT_SEED = os.getenv("NOTIFICATION")
 
-# Loading environment variables
+
 load_dotenv()
 
 
@@ -35,8 +35,8 @@ async def notify_user(phone_number, message):
         return False
 
 
-# Defining the Notification agent
-notification = Agent(
+
+agent = Agent(
     name="Notification",
     seed=NOTIIFICATION_AGENT_SEED,
     port=8002,
@@ -45,16 +45,16 @@ notification = Agent(
     },
 )
 
-# Funding the agent
-fund_agent_if_low(notification.wallet.address())
+
+fund_agent_if_low(agent.wallet.address())
 
 
-# Defining the Notification protocol
-@notification.on_message(Notification)
+
+@agent.on_message(Notification)
 async def notify_user(ctx: Context,  sender: str, msg: Notification):
     status = notify_user(msg.phone_number, msg.message)
     ctx.send(sender, status)
 
 
 if __name__ == "__main__":
-    notification.run()
+    agent.run()
