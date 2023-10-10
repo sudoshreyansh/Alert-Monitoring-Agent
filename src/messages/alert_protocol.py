@@ -7,6 +7,7 @@ alert_protocol = Protocol(name="AlertProtocol", version="1.0.0")
 
 
 ALERTS = {}
+CALLS = {}
 
 
 class AlertRequest(Model):
@@ -31,12 +32,14 @@ class DeleteAlertResponse(Model):
 @alert.on_message(model=AlertRequest, replies=AlertResponse)
 async def handle_alert_request(ctx: Context, sender: str, msg: Alert):
     id = str(uuid.uuid4())
+    freq = await query(sender)
     alert = {
         "id": id,
         "field": msg.field,
         "source": msg.source,
         "threshold": msg.threshold,
         "params": msg.params,
+        "frequency": freq
     }
     if (sender in ALERTS):
         ALERTS[sender].append(alert)
@@ -62,11 +65,17 @@ async def handle_delete_alert_request(ctx: Context, sender: str, msg: DeleteAler
 async def handle_interval(ctx: Context):
     for user in ALERTS:
         for alert in ALERTS[user]:
+            if (not CALLS[alert["id"]]):
+                CALLS[alert["id"]] = time.time()
+            time = CALLS[alert["id"]]
+            if (time.time() - time < alert["frequency"]):
+                continue
             queryToSource = await query(ALERTS[alert]["source"], SourceRequest({params: {location: ALERTS[alert]["params"]["location"]}}))
             dataValue = ProtocolResponse.parse_raw().json()[
                 ALERTS[alert]["field"]]
             if int(alert["threshold"]) > int(dataValue):
                 ctx.logger.info("Alert Triggered")
                 await query(user, AlertResponse({id: alert["id"]}))
+                CALLS[alert["id"]] = time.time()
             else:
                 pass
