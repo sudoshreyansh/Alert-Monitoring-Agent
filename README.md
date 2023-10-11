@@ -11,7 +11,34 @@ A general-purpose Alert & Monitoring Agents for Time-Series data (like temperatu
 &nbsp;
 
 ## Set Up Instructions
+Here are the steps to get up and running with the project.
+1. Install poetry if not already installed
+```bash
+pip install poetry
+```
+2. Clone the repository
+```bash
+git clone https://github.com/sudoshreyansh/Alert-Monitoring-Agent.git
+```
+3. Install all predefined packages 
+```bash
+cd Alert-Monitoring-Agent
+poetry install 
+```
+4. Activate Poetry Shell
+```bash
+poetry shell
+```
 
+### Frontend
+Frontend Installation
+
+```bash
+cd src/frontend
+yarn install
+yarn build
+yarn start
+```
 
 ## Architecture
 
